@@ -1,0 +1,17 @@
+<html>
+<head>
+  <title> view 1 </title>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+</head>
+<body>
+  <div ng-controller="PlayersController">
+    Name: <input type='text' ng-model='newPlayer.Team'>
+     <input type='submit' value='Add Team ' ng-model='newPlayer' ng-click='addPlayer()'>
+    <ul>
+      <li ng-repeat="Player in Players">{{ Player.Team }}
+      <button ng-click='removePlayer($index)'>delete</button>
+    </li>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+ <!-- THESE TWO VERSIONS BELOW MUST MATCH!!!! -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+    <script>
+    //  inject the ngRoute dependency in the module.
+    var myApp = angular.module('myApp', ['ngRoute']);
+        myApp.factory('TeamFactory', function (){
+          var Players = [
+              {Name: 'John' , Team: 'Hawks'},
+              {Name: 'James' , Team: 'Warriors'},
+              {Name: 'Nick' , Team: 'Pistons'},
+            ];
+      var factory = {};
+          factory.getPlayer = function(callback){
+          callback(Players)
+
+          }
+
+          factory.addPlayer = function(newPlayer){
+          Players.push(newPlayer);
+
+          }
+
+        return factory;
+
+      })
+        myApp.factory('PlayerFactory', function (){
+          var Players = [
+            {Name: 'John' , Team: 'Hawks'},
+            {Name: 'James' , Team: 'Warriors'},
+            {Name: 'Nick' , Team: 'Pistons'},
+          ];
+
+    var factory = {};
+        factory.getPlayer = function(callback){
+        callback(Players);
+
+      }
+
+        factory.addPlayer = function(newPlayer){
+        Players.push(newPlayer);
+
+      }
+
+      return factory;
+
+  })
+
+    //  use the config method to set up routing:
+    myApp.config(function ($routeProvider) {
+      $routeProvider
+        .when('/',{
+            templateUrl: 'partials/teams.html'
+        })
+        .when('/partial2',{
+            templateUrl: 'partials/players.html'
+        })
+        .when('/partial3', { //S
+            templateUrl: 'partials/associations.html'
+        })
+        .otherwise({
+          redirectTo: '/'
+        })
+    })
+    //  build the controllers
+    myApp.controller('PlayersController', function ($scope, PlayerFactory) {
+        $scope.Players = [];
+        PlayerFactory.getPlayer(function (data) {
+        $scope.Players = data;
+    })
+
+        $scope.addPlayer = function() {
+        PlayerFactory.addPlayer($scope.newPlayer);
+        $scope.newPlayer = {};
+    }
+        $scope.removePlayer = function($index) {
+        $scope.Players.splice($index, 1);
+
+    }
+  })
+
+    myApp.controller('TeamsController', function ($scope, TeamFactory) {
+      $scope.Players = [];
+      TeamFactory.getPlayer(function (data) {
+      $scope.Players = data;
+
+    })
+
+      $scope.addPlayer = function() {
+      TeamFactory.addPlayer($scope.newPlayer);
+      $scope.newPlayer = {};
+
+    }
+      $scope.removePlayer = function($index) {
+      $scope.Players.splice($index, 1);
+
+    }
+  })
+
+    myApp.controller('AssociationsController', function ($scope, TeamFactory, PlayersFactory) {
+      $scope.Players = [];
+      TeamFactory.getPlayer(function (data) {
+      PlayersFactory.getPlayer(function (data) {
+      $scope.Players = data;
+
+    })
+  })
+
+    $scope.addPlayer = function() {
+    TeamFactory.addPlayer($scope.newPlayer);
+    PlayersFactory.addPlayer($scope.newPlayer);
+    $scope.newPlayer = {};
+
+  }
+    $scope.removePlayer = function($index) {
+    $scope.Players.splice($index, 1);
+  }
+})
+
+    </script>
+  </head>
+  <body>
+    <div ng-app='myApp'>
+        <a href="#/">Players</a> | <a href="#/partial2">Team</a> | <a href="#/partial3"> Associations </a>
+        <div ng-view="">
+        </div>
+    </div>
+  </body>
+</html>
