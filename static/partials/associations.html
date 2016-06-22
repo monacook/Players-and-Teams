@@ -5,15 +5,11 @@
 </head>
 <body>
   <div ng-controller="AssociationsController">
-    <select ng-model='newPlayer.Team'>
-      <options>{{ Player.Team }}</options>
-      <options>{{ Player.Team }}</options>
-      <options>{{ Player.Team }}</options>
+    <select>
+      <options ng-repeat="Player in Players">{{ Player.Team }}</options>
     </select>
     <select>
-      <options ng-model='newPlayer.Name'>{{ Player.Name }}</options>
-      <options ng-model='newPlayer.Name'>{{ Player.Name }}</options>
-      <options ng-model='newPlayer.Name'>{{ Player.Name }}</options>
+      <options ng-repeat="Player in Players">{{ Player.Name }}</options>
     </select>
     <input type='submit' value='Add Team ' ng-model='newPlayer' ng-click='addPlayer()'>
     <ul>
