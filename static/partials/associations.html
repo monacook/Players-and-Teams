@@ -5,21 +5,25 @@
 </head>
 <body>
   <div ng-controller="AssociationsController">
-    <select ng-model='newPlayer'>
-      <options ng-model='newPlayer'>{{ Player.Team }}</options>
-      <options ng-model='newPlayer'>{{ Player.Team }}</options>
-      <options ng-model='newPlayer'>{{ Player.Team }}</options>
+    <select ng-model='newPlayer.Team'>
+      <options>{{ Player.Team }}</options>
+      <options>{{ Player.Team }}</options>
+      <options>{{ Player.Team }}</options>
     </select>
-    <select ng-model='newPlayer'>
-      <options ng-model='newPlayer'>{{ Player.Name }}</options>
-      <options ng-model='newPlayer'>{{ Player.Name }}</options>
-      <options ng-model='newPlayer'>{{ Player.Name }}</options>
+    <select>
+      <options ng-model='newPlayer.Name'>{{ Player.Name }}</options>
+      <options ng-model='newPlayer.Name'>{{ Player.Name }}</options>
+      <options ng-model='newPlayer.Name'>{{ Player.Name }}</options>
     </select>
     <input type='submit' value='Add Team ' ng-model='newPlayer' ng-click='addPlayer()'>
     <ul>
     <li ng-repeat="Player in Players">{{ Player.Name }} {{ Player.Team }}
       <button ng-click='removePlayer($index)'>delete</button>
     </li>
+  </ul>
   </div>
 </body>
 </html>
+
+
+<!-- //finish up select to have it display data from factory -->

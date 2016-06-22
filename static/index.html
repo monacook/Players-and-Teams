@@ -14,21 +14,23 @@
               {Name: 'James' , Team: 'Warriors'},
               {Name: 'Nick' , Team: 'Pistons'},
             ];
+
       var factory = {};
           factory.getPlayer = function(callback){
           callback(Players)
 
-          }
+        } // closing getPlayer
 
           factory.addPlayer = function(newPlayer){
           Players.push(newPlayer);
 
-          }
+        } // closing addPlayer
 
         return factory;
 
-      })
-        myApp.factory('PlayerFactory', function (){
+      }) // closing TeamFactory
+
+        myApp.factory('PlayersFactory', function (){
           var Players = [
             {Name: 'John' , Team: 'Hawks'},
             {Name: 'James' , Team: 'Warriors'},
@@ -39,16 +41,16 @@
         factory.getPlayer = function(callback){
         callback(Players);
 
-      }
+      } // closing getPlayer
 
         factory.addPlayer = function(newPlayer){
         Players.push(newPlayer);
 
-      }
+      } // closing addPlayer
 
       return factory;
 
-  })
+  })  //Closing PlayerFactory
 
     //  use the config method to set up routing:
     myApp.config(function ($routeProvider) {
@@ -67,39 +69,40 @@
         })
     })
     //  build the controllers
-    myApp.controller('PlayersController', function ($scope, PlayerFactory) {
+    myApp.controller('PlayersController', function ($scope, PlayersFactory) {
         $scope.Players = [];
-        PlayerFactory.getPlayer(function (data) {
+        PlayersFactory.getPlayer(function (data) {
         $scope.Players = data;
-    })
+    }) // closing getPlayer(function)
 
         $scope.addPlayer = function() {
         PlayerFactory.addPlayer($scope.newPlayer);
         $scope.newPlayer = {};
-    }
+    } // closing addPlayer
         $scope.removePlayer = function($index) {
         $scope.Players.splice($index, 1);
 
-    }
-  })
+    } // closing removePlayer
+  })  // closing PlayersController
 
     myApp.controller('TeamsController', function ($scope, TeamFactory) {
       $scope.Players = [];
       TeamFactory.getPlayer(function (data) {
       $scope.Players = data;
 
-    })
+    }) // closing TeamFactory
 
       $scope.addPlayer = function() {
       TeamFactory.addPlayer($scope.newPlayer);
       $scope.newPlayer = {};
 
-    }
+    } // closing addplayer
+
       $scope.removePlayer = function($index) {
       $scope.Players.splice($index, 1);
 
-    }
-  })
+    } // closing removePlayer
+  })// closing TeamsController
 
     myApp.controller('AssociationsController', function ($scope, TeamFactory, PlayersFactory) {
       $scope.Players = [];
@@ -107,19 +110,20 @@
       PlayersFactory.getPlayer(function (data) {
       $scope.Players = data;
 
-    })
-  })
+    }) //closing TeamFactory
+  })  // Closing PlayersFactory
 
     $scope.addPlayer = function() {
     TeamFactory.addPlayer($scope.newPlayer);
-    PlayersFactory.addPlayer($scope.newPlayer);
+    PlayersFactory.addPlayer();
     $scope.newPlayer = {};
 
-  }
+  } //scope.addplayer
+
     $scope.removePlayer = function($index) {
     $scope.Players.splice($index, 1);
-  }
-})
+  } // closing removePlayer
+})  // closing AssociationsController
 
     </script>
   </head>
