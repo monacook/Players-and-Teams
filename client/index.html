@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+ <!-- THESE TWO VERSIONS BELOW MUST MATCH!!!! -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script>
+    <script>
+    //  inject the ngRoute dependency in the module.
+    var myApp = angular.module('myApp', ['ngRoute']);
+
+    //  use the config method to set up routing:
+    myApp.config(function ($routeProvider) {
+      $routeProvider
+      .when('/',{
+        templateUrl: 'partials/teams.html'
+      })
+      .when('/partial2',{
+        templateUrl: 'partials/players.html'
+      })
+      .when('/partial3', { //S
+        templateUrl: 'partials/associations.html'
+      })
+      .otherwise({
+        redirectTo: '/'
+      })  // Config
+    })
+
+    myApp.factory('TeamFactory', function (){
+      var Players = [
+          {Name: 'John' , Team: 'Hawks'},
+          {Name: 'James' , Team: 'Warriors'},
+          {Name: 'Nick' , Team: 'Pistons'},
+        ];
+
+      var factory = {};
+
+      factory.getPlayer = function(callback){
+          callback(Players)
+      } // closing getPlayer
+
+      factory.addPlayer = function(newPlayer){
+          Players.push(newPlayer);
+      } // closing addPlayer
+
+      return factory;
+
+    }) // closing TeamFactory
+
+     myApp.factory('PlayersFactory', function (){
+          var Players = [
+            {Name: 'John' , Team: 'Hawks'},
+            {Name: 'James' , Team: 'Warriors'},
+            {Name: 'Nick' , Team: 'Pistons'},
+          ];
+
+          var factory = {};
+
+      factory.getPlayer = function(callback){
+        // http request goes here
+        callback(Players);
+      } // closing getPlayer
+
+        factory.addPlayer = function(newPlayer){
+        Players.push(newPlayer);
+
+      } // closing addPlayer
+
+      return factory;
+
+  })  //Closing PlayerFactory
+
+    //  build the controllers
+    myApp.controller('PlayersController', function ($scope, PlayersFactory) {
+        $scope.Players = [];
+
+        PlayersFactory.getPlayer(function (data) {
+          $scope.Players = data;
+        }) // closing getPlayer(function)
+
+        $scope.addPlayer = function() {
+          PlayersFactory.addPlayer($scope.newPlayer);
+          $scope.newPlayer = {};
+        } // closing addPlayer
+
+        $scope.removePlayer = function($index) {
+          $scope.Players.splice($index, 1); // check this one out!!
+        } // closing removePlayer
+  })  // closing PlayersController
+
+    myApp.controller('TeamsController', function ($scope, TeamFactory) {
+      $scope.Players = [];
+      TeamFactory.getPlayer(function (data) {
+      $scope.Players = data;
+
+    }) // closing TeamFactory
+
+      $scope.addPlayer = function() {
+      TeamFactory.addPlayer($scope.newPlayer);
+      $scope.newPlayer = {};
+
+    } // closing addplayer
+
+      $scope.removePlayer = function($index) {
+      $scope.Players.splice($index, 1);
+
+    } // closing removePlayer
+  })// closing TeamsController
+
+    myApp.controller('AssociationsController', function ($scope, TeamFactory, PlayersFactory) {
+      $scope.Players = [];
+
+      TeamFactory.getPlayer(function (data) {
+        PlayersFactory.getPlayer(function (data) { // you wanna do it like nested calls
+          $scope.Players = data;
+
+        }) //closing TeamFactory
+      })  // Closing PlayersFactory
+
+    $scope.addPlayer = function() {
+        TeamFactory.addPlayer($scope.newPlayer);
+        PlayersFactory.addPlayer();   // no parallel calls
+        $scope.newPlayer = {};
+      } //scope.addplayer
+
+    $scope.removePlayer = function($index) {
+    $scope.Players.splice($index, 1);
+  } // closing removePlayer
+})  // closing AssociationsController
+
+    </script>
+  </head>
+  <body>
+    <div ng-app='myApp'>
+        <a href="#/">Players</a> | <a href="#/partial2">Team</a> | <a href="#/partial3"> Associations </a>
+        <div ng-view="">
+        </div>
+    </div>
+  </body>
+</html>
