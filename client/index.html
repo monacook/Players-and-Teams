@@ -111,17 +111,18 @@
       $scope.Players = [];
 
       TeamFactory.getPlayer(function (data) {
-        PlayersFactory.getPlayer(function (data) { // you wanna do it like nested calls
+        PlayersFactory.getPlayer(function (data) { // nested calls
           $scope.Players = data;
 
         }) //closing TeamFactory
       })  // Closing PlayersFactory
 
     $scope.addPlayer = function() {
-        TeamFactory.addPlayer($scope.newPlayer);
-        PlayersFactory.addPlayer();   // no parallel calls
-        $scope.newPlayer = {};
-      } //scope.addplayer
+        TeamFactory.addPlayer($scope.newPlayer){
+          PlayersFactory.addPlayer();   // no parallel calls
+          $scope.newPlayer = {};
+        } //scope.addplayer
+
 
     $scope.removePlayer = function($index) {
     $scope.Players.splice($index, 1);
