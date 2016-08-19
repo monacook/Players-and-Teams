@@ -1,6 +1,6 @@
   <div ng-controller="TeamsController">
-    Team: <input type='text' ng-model='newPlayer.Name'>
-     <input type='submit' value='Add Team ' ng-model='newPlayer' ng-click='addPlayer()'>
+    Player: <input type='text' ng-model='newPlayer.Name'>
+     <input type='submit' value='Add Team' ng-model='newPlayer' ng-click='addPlayers()'>
     <ul>
       <li ng-repeat="Player in Players">{{ Player.Name }}
       <button ng-click='removePlayer($index)'>delete</button>

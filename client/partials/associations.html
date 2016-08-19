@@ -1,14 +1,10 @@
+<div class="container">
 <div ng-controller="AssociationsController">
-    <select>
-        <options ng-repeat="Player in Players">{{ Player.Team }}</options>
-    </select>
-    <select>
-        <options ng-repeat="Player in Players">{{ Player.Name }}</options>
-    </select>
-    <input type='submit' value='Add Team ' ng-model='newPlayer' ng-click='addPlayer()'>
+    <h3>Teams and Players list:</h3>
     <ul>
-        <li ng-repeat="Player in Players">{{ Player.Name }} {{ Player.Team }}
+        <li ng-repeat="Player in Players">{{ Player.Team }}, {{ Player.Name }}
             <button ng-click='removePlayer($index)'>delete</button>
         </li>
     </ul>
+</div>
 </div>
